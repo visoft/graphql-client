@@ -61,8 +61,16 @@ module GraphQL
 
         private
 
+        def camel_case?(type_name)
+          if Regexp.method_defined?(:match?)
+            /\A[A-Z]/.match?(type_name)
+          else
+            (/\A[A-Z]/ =~ type_name).present?
+          end
+        end
+
         def normalize_type_name(type_name)
-          /\A[A-Z]/.match?(type_name) ? type_name : type_name.camelize
+          camel_case?(type_name) ? type_name : type_name.camelize
         end
       end
 
